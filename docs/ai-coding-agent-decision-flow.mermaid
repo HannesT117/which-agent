@@ -1,0 +1,108 @@
+flowchart TD
+    START(["Choosing an AI Coding Agent"])
+    START --> Q1{"Need deep<br/>reasoning?"}
+
+    Q1 -- "Yes, multi-file refactoring,<br/>edge cases" --> DR_PRIV
+    Q1 -- "No" --> Q2{"Need autonomous<br/>execution?"}
+    Q2 -- "Yes, hands-off<br/>agent" --> AU_PRIV
+    Q2 -- "No" --> Q3{"Want interactive<br/>pair programming?"}
+    Q3 -- "Yes" --> PP_ENV
+    Q3 -- "No" --> Q4{"Need quick completions<br/>and assistance?"}
+    Q4 -- "Yes" --> QC_ENV
+    Q4 -- "No" --> Q5{"Need team-wide<br/>deployment?"}
+    Q5 -- "Yes, enterprise<br/>or org" --> ENT_HOST
+    Q5 -- "No, privacy<br/>and offline" --> OFF_WHO
+
+    %% ── Branch 1: Deep Reasoning ──
+    subgraph deep ["Deep Reasoning / Complex Refactoring"]
+        DR_PRIV{"Data privacy<br/>critical?"}
+        DR_PRIV -- "Yes" --> DR_OFF{"Full offline<br/>needed?"}
+        DR_OFF -- "Yes" --> AIDER_L["🟢 Aider + Ollama<br/><i>🔒 local · 🔀 git-native</i>"]
+        DR_OFF -- "No" --> DR_FLEX{"Multi-model<br/>flexibility?"}
+        DR_FLEX -- "Yes" --> OPENCODE["🟢 OpenCode<br/><i>🔀 multi-provider · ⭐ 120k+</i>"]
+        DR_FLEX -- "No" --> AIDER_C["🟢 Aider<br/><i>🏆 SOTA SWE-bench · 🔀 any LLM</i>"]
+        DR_PRIV -- "No, cloud OK" --> DR_Q{"Is top quality<br/>the priority?"}
+        DR_Q -- "Yes, willing to pay" --> CLAUDE["🔵 Claude Code<br/><i>🏆 80.9% SWE-bench · ☁️ cloud</i>"]
+        DR_Q -- "No, want balance" --> DR_M{"Swap models<br/>freely?"}
+        DR_M -- "Yes" --> AIDER_C2["🟢 Aider<br/><i>🔀 100+ LLMs · 🆓 free</i>"]
+        DR_M -- "No" --> CODEX["🔵 Codex CLI<br/><i>🧠 GPT-5.4 · 🔍 web search</i>"]
+    end
+
+    %% ── Branch 2: Autonomous ──
+    subgraph auto ["Autonomous Agent (Hands-off)"]
+        AU_PRIV{"Data privacy<br/>critical?"}
+        AU_PRIV -- "Yes" --> GOOSE_L["🟢 Goose + local LLM<br/><i>🤖 autonomous · 🔌 MCP-native</i>"]
+        AU_PRIV -- "No, cloud OK" --> AU_ENV{"Environment?"}
+        AU_ENV -- "Terminal" --> AU_CTRL{"Step-by-step<br/>control?"}
+        AU_CTRL -- "Yes" --> CLAUDE2["🔵 Claude Code<br/><i>✋ explicit confirmations</i>"]
+        AU_CTRL -- "No, let it run" --> AU_PAR{"Parallel<br/>agents?"}
+        AU_PAR -- "Yes" --> WARP["🟡 Warp Terminal<br/><i>🤖 parallel agents · 🖥️ full terminal</i>"]
+        AU_PAR -- "No" --> GOOSE["🟢 Goose<br/><i>🤖 multi-step · ⭐ 29k+ · 🔌 MCP</i>"]
+        AU_ENV -- "IDE" --> CURSOR["🟡 Cursor<br/><i>🤖 multi-agent · ☁️ cloud · 💰 $20/mo</i>"]
+    end
+
+    %% ── Branch 3: Pair Programming ──
+    subgraph pair ["Interactive Pair Programming"]
+        PP_ENV{"Environment?"}
+        PP_ENV -- "Terminal" --> PP_GIT{"Git-native<br/>workflow?"}
+        PP_GIT -- "Yes" --> AIDER3["🟢 Aider<br/><i>🔀 auto-commits · 🔀 git-first</i>"]
+        PP_GIT -- "No" --> PP_PLAN{"Plan-before-act<br/>mode?"}
+        PP_PLAN -- "Yes" --> GEMINI["🔵 Gemini CLI<br/><i>📋 Plan Mode · 📏 1M context</i>"]
+        PP_PLAN -- "No" --> COPILOT["🔵 Copilot CLI<br/><i>🔀 multi-model · 🐙 GitHub-native</i>"]
+        PP_ENV -- "IDE" --> PP_LOCK{"Vendor<br/>lock-in OK?"}
+        PP_LOCK -- "No, want OSS" --> PP_CUST{"Custom agent<br/>personas?"}
+        PP_CUST -- "Yes" --> ROO["🟢 Roo Code<br/><i>🎭 custom Modes · ⭐ 22k+</i>"]
+        PP_CUST -- "No" --> CLINE["🟢 Cline<br/><i>📦 5M installs · 💰 cost tracking</i>"]
+        PP_LOCK -- "Yes" --> WINDSURF["🟡 Windsurf<br/><i>🏆 #1 ranked · 🌊 Cascade agent</i>"]
+    end
+
+    %% ── Branch 4: Quick Completions ──
+    subgraph quick ["Quick Completions and Assistance"]
+        QC_ENV{"Environment?"}
+        QC_ENV -- "Terminal" --> COP_CLI["🔵 Copilot CLI<br/><i>🔀 multi-model · 🐙 GitHub-native</i>"]
+        QC_ENV -- "VS Code" --> QC_COST{"Budget?"}
+        QC_COST -- "Free / OSS" --> CONTINUE["🟢 Continue<br/><i>🆓 free · ⚙️ YAML config</i>"]
+        QC_COST -- "Willing to pay" --> COP_IDE["🔵 GitHub Copilot<br/><i>🏢 deepest IDE integration</i>"]
+        QC_ENV -- "JetBrains" --> COP_JB["🔵 Copilot or 🟡 Cursor<br/><i>🔌 via ACP</i>"]
+    end
+
+    %% ── Branch 5: Enterprise ──
+    subgraph enterprise ["Enterprise / Team Deployment"]
+        ENT_HOST{"Must data stay<br/>on-premise?"}
+        ENT_HOST -- "Yes, or regulated<br/>(HIPAA / FedRAMP)" --> TABBY["🟢 Tabby<br/><i>🔒 self-hosted · 🏥 HIPAA-ready · 🔐 SSO</i>"]
+        ENT_HOST -- "No, cloud OK" --> ENT_ECO{"Primary<br/>ecosystem?"}
+        ENT_ECO -- "AWS" --> KIRO["🔵 Amazon Q / Kiro<br/><i>☁️ AWS-native · 🏢 enterprise</i>"]
+        ENT_ECO -- "GitHub" --> COP_ENT["🔵 Copilot Enterprise<br/><i>🏢 org-wide · 📋 policy controls</i>"]
+        ENT_ECO -- "Large codebase" --> CODY["🔵 Sourcegraph Cody<br/><i>🔍 code intel at scale · 🏢 Fortune 500</i>"]
+    end
+
+    %% ── Branch 6: Privacy / Offline ──
+    subgraph privacy ["Privacy-First / Fully Offline"]
+        OFF_WHO{"Solo developer?"}
+        OFF_WHO -- "Yes" --> OFF_UX{"Environment?"}
+        OFF_UX -- "Terminal" --> AID_OFF["🟢 Aider + Ollama<br/><i>🔒 zero cloud · 🆓 free</i>"]
+        OFF_UX -- "IDE" --> ROO_OFF["🟢 Roo Code + Ollama<br/><i>🔒 local · 🖥️ VS Code</i>"]
+        OFF_WHO -- "No, team" --> TAB2["🟢 Tabby<br/><i>🔒 self-hosted · 👥 team mgmt</i>"]
+    end
+
+    %% ── Styling ──
+    classDef spine fill:#1a1a2e,stroke:#4A90D9,color:#4A90D9,stroke-width:2px
+    classDef question fill:#2d2d44,stroke:#666,color:#ccc
+    classDef oss fill:#1a3a2a,stroke:#27AE60,color:#7ED321,stroke-width:2px
+    classDef closed fill:#1a2a3a,stroke:#2980B9,color:#6ab0de,stroke-width:2px
+    classDef commercial fill:#3a2a1a,stroke:#F39C12,color:#F5C563,stroke-width:2px
+
+    class START spine
+    class Q1,Q2,Q3,Q4,Q5 spine
+    class DR_PRIV,DR_OFF,DR_FLEX,DR_Q,DR_M question
+    class AU_PRIV,AU_ENV,AU_CTRL,AU_PAR question
+    class PP_ENV,PP_GIT,PP_PLAN,PP_LOCK,PP_CUST question
+    class QC_ENV,QC_COST question
+    class ENT_HOST,ENT_ECO question
+    class OFF_WHO,OFF_UX question
+
+    class AIDER_L,OPENCODE,AIDER_C,AIDER_C2,AIDER3,AID_OFF oss
+    class GOOSE_L,GOOSE,CLINE,ROO,CONTINUE,TABBY,TAB2,ROO_OFF oss
+    class CLAUDE,CLAUDE2,CODEX,COPILOT,COP_CLI,COP_IDE,COP_JB,COP_ENT closed
+    class GEMINI,KIRO,CODY closed
+    class CURSOR,WINDSURF,WARP commercial

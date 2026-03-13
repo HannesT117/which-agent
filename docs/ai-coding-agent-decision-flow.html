@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Coding Agent Decision Flow</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.4.1/mermaid.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f1117; color: #e0e0e0; }
+
+  .header { padding: 2rem 2rem 1rem; max-width: 1400px; margin: 0 auto; }
+  .header h1 { font-size: 1.6rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem; }
+  .header p { font-size: 0.9rem; color: #888; }
+
+  .legend { display: flex; gap: 1.5rem; flex-wrap: wrap; padding: 1rem 2rem; max-width: 1400px; margin: 0 auto; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; }
+  .legend-dot { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .dot-oss { background: #27AE60; }
+  .dot-closed { background: #2980B9; }
+  .dot-commercial { background: #F39C12; }
+  .dot-question { background: #34495E; border: 1px solid #4a6177; }
+
+  .chart-container {
+    max-width: 1400px; margin: 1rem auto; padding: 1rem 2rem;
+    overflow-x: auto;
+  }
+  .mermaid { background: #1a1d27; border-radius: 12px; padding: 2rem; }
+  .mermaid svg { max-width: 100%; height: auto; }
+
+  .tools-grid { max-width: 1400px; margin: 2rem auto; padding: 0 2rem 3rem; }
+  .tools-grid h2 { font-size: 1.2rem; margin-bottom: 1rem; color: #fff; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem; }
+  .tool-card {
+    background: #1a1d27; border-radius: 8px; padding: 1rem 1.2rem;
+    border-left: 3px solid #444; transition: border-color 0.2s;
+  }
+  .tool-card:hover { border-color: #4A90D9; }
+  .tool-card.oss { border-left-color: #27AE60; }
+  .tool-card.closed { border-left-color: #2980B9; }
+  .tool-card.commercial { border-left-color: #F39C12; }
+  .tool-name { font-weight: 600; font-size: 1rem; color: #fff; }
+  .tool-type { font-size: 0.8rem; color: #999; margin-top: 3px; letter-spacing: 0.01em; }
+  .tool-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .tag {
+    font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;
+    background: #2a2d37; color: #aaa; white-space: nowrap;
+  }
+  .tag.green { background: #1a3a2a; color: #7ED321; }
+  .tag.blue { background: #1a2a3a; color: #4A90D9; }
+  .tag.orange { background: #3a2a1a; color: #F5A623; }
+  .tag.red { background: #3a1a1a; color: #E74C3C; }
+
+  .footer { text-align: center; padding: 1rem; color: #555; font-size: 0.75rem; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>AI Coding Agent Decision Flow</h1>
+  <p>Follow the blue spine top-to-bottom — answer Yes/No for each use case. When you hit "Yes", follow the branch into its subgraph for detailed decisions.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot dot-question"></div> Decision point</div>
+  <div class="legend-item"><div class="legend-dot dot-oss"></div> Open-source / free</div>
+  <div class="legend-item"><div class="legend-dot dot-closed"></div> Closed-source (vendor API)</div>
+  <div class="legend-item"><div class="legend-dot dot-commercial"></div> Commercial product</div>
+</div>
+
+<div class="chart-container">
+<pre class="mermaid">
+%%{init: {'theme': 'dark', 'flowchart': {'curve': 'basis', 'nodeSpacing': 25, 'rankSpacing': 40}}}%%
+
+flowchart TD
+    START(["Choosing an AI Coding Agent"])
+    START --> Q1{"Need deep<br/>reasoning?"}
+
+    Q1 -- "Yes, multi-file refactoring,<br/>edge cases" --> DR_PRIV
+    Q1 -- "No" --> Q2{"Need autonomous<br/>execution?"}
+    Q2 -- "Yes, hands-off<br/>agent" --> AU_PRIV
+    Q2 -- "No" --> Q3{"Want interactive<br/>pair programming?"}
+    Q3 -- "Yes" --> PP_ENV
+    Q3 -- "No" --> Q4{"Need quick completions<br/>and assistance?"}
+    Q4 -- "Yes" --> QC_ENV
+    Q4 -- "No" --> Q5{"Need team-wide<br/>deployment?"}
+    Q5 -- "Yes, enterprise<br/>or org" --> ENT_HOST
+    Q5 -- "No, privacy<br/>and offline" --> OFF_WHO
+
+    subgraph deep ["Deep Reasoning / Complex Refactoring"]
+        DR_PRIV{"Data privacy<br/>critical?"}
+        DR_PRIV -- "Yes" --> DR_OFF{"Full offline<br/>needed?"}
+        DR_OFF -- "Yes" --> AIDER_L["🟢 Aider + Ollama<br/><i>🔒 local · 🔀 git-native</i>"]
+        DR_OFF -- "No" --> DR_FLEX{"Multi-model<br/>flexibility?"}
+        DR_FLEX -- "Yes" --> OPENCODE["🟢 OpenCode<br/><i>🔀 multi-provider · ⭐ 120k+</i>"]
+        DR_FLEX -- "No" --> AIDER_C["🟢 Aider<br/><i>🏆 SOTA SWE-bench · 🔀 any LLM</i>"]
+        DR_PRIV -- "No, cloud OK" --> DR_Q{"Is top quality<br/>the priority?"}
+        DR_Q -- "Yes, willing to pay" --> CLAUDE["🔵 Claude Code<br/><i>🏆 80.9% SWE-bench · ☁️ cloud</i>"]
+        DR_Q -- "No, want balance" --> DR_M{"Swap models<br/>freely?"}
+        DR_M -- "Yes" --> AIDER_C2["🟢 Aider<br/><i>🔀 100+ LLMs · 🆓 free</i>"]
+        DR_M -- "No" --> CODEX["🔵 Codex CLI<br/><i>🧠 GPT-5.4 · 🔍 web search</i>"]
+    end
+
+    subgraph auto ["Autonomous Agent (Hands-off)"]
+        AU_PRIV{"Data privacy<br/>critical?"}
+        AU_PRIV -- "Yes" --> GOOSE_L["🟢 Goose + local LLM<br/><i>🤖 autonomous · 🔌 MCP-native</i>"]
+        AU_PRIV -- "No, cloud OK" --> AU_ENV{"Environment?"}
+        AU_ENV -- "Terminal" --> AU_CTRL{"Step-by-step<br/>control?"}
+        AU_CTRL -- "Yes" --> CLAUDE2["🔵 Claude Code<br/><i>✋ explicit confirmations</i>"]
+        AU_CTRL -- "No, let it run" --> AU_PAR{"Parallel<br/>agents?"}
+        AU_PAR -- "Yes" --> WARP["🟡 Warp Terminal<br/><i>🤖 parallel agents · 🖥️ full terminal</i>"]
+        AU_PAR -- "No" --> GOOSE["🟢 Goose<br/><i>🤖 multi-step · ⭐ 29k+ · 🔌 MCP</i>"]
+        AU_ENV -- "IDE" --> CURSOR["🟡 Cursor<br/><i>🤖 multi-agent · ☁️ cloud · 💰 $20/mo</i>"]
+    end
+
+    subgraph pair ["Interactive Pair Programming"]
+        PP_ENV{"Environment?"}
+        PP_ENV -- "Terminal" --> PP_GIT{"Git-native<br/>workflow?"}
+        PP_GIT -- "Yes" --> AIDER3["🟢 Aider<br/><i>🔀 auto-commits · 🔀 git-first</i>"]
+        PP_GIT -- "No" --> PP_PLAN{"Plan-before-act<br/>mode?"}
+        PP_PLAN -- "Yes" --> GEMINI["🔵 Gemini CLI<br/><i>📋 Plan Mode · 📏 1M context</i>"]
+        PP_PLAN -- "No" --> COPILOT["🔵 Copilot CLI<br/><i>🔀 multi-model · 🐙 GitHub-native</i>"]
+        PP_ENV -- "IDE" --> PP_LOCK{"Vendor<br/>lock-in OK?"}
+        PP_LOCK -- "No, want OSS" --> PP_CUST{"Custom agent<br/>personas?"}
+        PP_CUST -- "Yes" --> ROO["🟢 Roo Code<br/><i>🎭 custom Modes · ⭐ 22k+</i>"]
+        PP_CUST -- "No" --> CLINE["🟢 Cline<br/><i>📦 5M installs · 💰 cost tracking</i>"]
+        PP_LOCK -- "Yes" --> WINDSURF["🟡 Windsurf<br/><i>🏆 #1 ranked · 🌊 Cascade agent</i>"]
+    end
+
+    subgraph quick ["Quick Completions and Assistance"]
+        QC_ENV{"Environment?"}
+        QC_ENV -- "Terminal" --> COP_CLI["🔵 Copilot CLI<br/><i>🔀 multi-model · 🐙 GitHub-native</i>"]
+        QC_ENV -- "VS Code" --> QC_COST{"Budget?"}
+        QC_COST -- "Free / OSS" --> CONTINUE["🟢 Continue<br/><i>🆓 free · ⚙️ YAML config</i>"]
+        QC_COST -- "Willing to pay" --> COP_IDE["🔵 GitHub Copilot<br/><i>🏢 deepest IDE integration</i>"]
+        QC_ENV -- "JetBrains" --> COP_JB["🔵 Copilot or 🟡 Cursor<br/><i>🔌 via ACP</i>"]
+    end
+
+    subgraph enterprise ["Enterprise / Team Deployment"]
+        ENT_HOST{"Must data stay<br/>on-premise?"}
+        ENT_HOST -- "Yes, or regulated<br/>(HIPAA / FedRAMP)" --> TABBY["🟢 Tabby<br/><i>🔒 self-hosted · 🏥 HIPAA-ready · 🔐 SSO</i>"]
+        ENT_HOST -- "No, cloud OK" --> ENT_ECO{"Primary<br/>ecosystem?"}
+        ENT_ECO -- "AWS" --> KIRO["🔵 Amazon Q / Kiro<br/><i>☁️ AWS-native · 🏢 enterprise</i>"]
+        ENT_ECO -- "GitHub" --> COP_ENT["🔵 Copilot Enterprise<br/><i>🏢 org-wide · 📋 policy controls</i>"]
+        ENT_ECO -- "Large codebase" --> CODY["🔵 Sourcegraph Cody<br/><i>🔍 code intel at scale · 🏢 Fortune 500</i>"]
+    end
+
+    subgraph privacy ["Privacy-First / Fully Offline"]
+        OFF_WHO{"Solo developer?"}
+        OFF_WHO -- "Yes" --> OFF_UX{"Environment?"}
+        OFF_UX -- "Terminal" --> AID_OFF["🟢 Aider + Ollama<br/><i>🔒 zero cloud · 🆓 free</i>"]
+        OFF_UX -- "IDE" --> ROO_OFF["🟢 Roo Code + Ollama<br/><i>🔒 local · 🖥️ VS Code</i>"]
+        OFF_WHO -- "No, team" --> TAB2["🟢 Tabby<br/><i>🔒 self-hosted · 👥 team mgmt</i>"]
+    end
+
+    classDef spine fill:#1a1a2e,stroke:#4A90D9,color:#4A90D9,stroke-width:2px
+    classDef question fill:#2d2d44,stroke:#666,color:#ccc
+    classDef oss fill:#1a3a2a,stroke:#27AE60,color:#7ED321,stroke-width:2px
+    classDef closed fill:#1a2a3a,stroke:#2980B9,color:#6ab0de,stroke-width:2px
+    classDef commercial fill:#3a2a1a,stroke:#F39C12,color:#F5C563,stroke-width:2px
+
+    class START spine
+    class Q1,Q2,Q3,Q4,Q5 spine
+    class DR_PRIV,DR_OFF,DR_FLEX,DR_Q,DR_M question
+    class AU_PRIV,AU_ENV,AU_CTRL,AU_PAR question
+    class PP_ENV,PP_GIT,PP_PLAN,PP_LOCK,PP_CUST question
+    class QC_ENV,QC_COST question
+    class ENT_HOST,ENT_ECO question
+    class OFF_WHO,OFF_UX question
+
+    class AIDER_L,OPENCODE,AIDER_C,AIDER_C2,AIDER3,AID_OFF oss
+    class GOOSE_L,GOOSE,CLINE,ROO,CONTINUE,TABBY,TAB2,ROO_OFF oss
+    class CLAUDE,CLAUDE2,CODEX,COPILOT,COP_CLI,COP_IDE,COP_JB,COP_ENT closed
+    class GEMINI,KIRO,CODY closed
+    class CURSOR,WINDSURF,WARP commercial
+</pre>
+</div>
+
+<div class="tools-grid">
+  <h2>Quick Reference — All Tools at a Glance</h2>
+  <div class="grid">
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 Aider</div>
+      <div class="tool-type">🖥️ Terminal · 🔀 100+ LLMs · 🔒 Offline OK · 🔀 Git-native</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">Apache 2.0</span>
+        <span class="tag blue">SOTA SWE-bench</span>
+      </div>
+    </div>
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 OpenCode</div>
+      <div class="tool-type">🖥️ Terminal · 🔀 Multi-provider · 🔒 Local-first · ⭐ 120k+</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">OSS</span>
+        <span class="tag blue">5M+ users</span>
+      </div>
+    </div>
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 Goose</div>
+      <div class="tool-type">🖥️ Terminal + Desktop · 🤖 Autonomous · 🔌 MCP-native · ⭐ 29k+</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">Block (Square)</span>
+        <span class="tag green">Offline OK</span>
+      </div>
+    </div>
+    <div class="tool-card closed">
+      <div class="tool-name">🔵 Claude Code</div>
+      <div class="tool-type">🖥️ Terminal · 🏆 80.9% SWE-bench · ☁️ Cloud · 🔌 MCP + Agents</div>
+      <div class="tool-meta">
+        <span class="tag orange">Paid (API)</span>
+        <span class="tag blue">Anthropic</span>
+        <span class="tag">200k context</span>
+      </div>
+    </div>
+    <div class="tool-card closed">
+      <div class="tool-name">🔵 Codex CLI</div>
+      <div class="tool-type">🖥️ Terminal · 🧠 GPT-5.4 · 🔍 Web search · ☁️ Cloud</div>
+      <div class="tool-meta">
+        <span class="tag orange">Paid (API)</span>
+        <span class="tag blue">OpenAI</span>
+      </div>
+    </div>
+    <div class="tool-card closed">
+      <div class="tool-name">🔵 GitHub Copilot CLI</div>
+      <div class="tool-type">🖥️ Terminal · 🔀 Multi-model · 🐙 GitHub-native · 📋 PR reviews</div>
+      <div class="tool-meta">
+        <span class="tag orange">Subscription</span>
+        <span class="tag blue">GA Feb 2026</span>
+      </div>
+    </div>
+    <div class="tool-card closed">
+      <div class="tool-name">🔵 Gemini CLI</div>
+      <div class="tool-type">🖥️ Terminal · 📋 Plan Mode · 📏 1M context · 🔍 Research agents</div>
+      <div class="tool-meta">
+        <span class="tag green">Free tier</span>
+        <span class="tag blue">Google</span>
+        <span class="tag green">OSS</span>
+      </div>
+    </div>
+    <div class="tool-card commercial">
+      <div class="tool-name">🟡 Cursor</div>
+      <div class="tool-type">🖥️ IDE · 🤖 Multi-agent · ☁️ Cloud · 🔌 JetBrains via ACP</div>
+      <div class="tool-meta">
+        <span class="tag orange">$20/mo</span>
+        <span class="tag">Parallel execution</span>
+      </div>
+    </div>
+    <div class="tool-card commercial">
+      <div class="tool-name">🟡 Windsurf</div>
+      <div class="tool-type">🖥️ IDE · 🏆 #1 ranked · 🌊 Cascade agent · ☁️ Cloud</div>
+      <div class="tool-meta">
+        <span class="tag orange">$15/mo</span>
+        <span class="tag">Cognition</span>
+      </div>
+    </div>
+    <div class="tool-card commercial">
+      <div class="tool-name">🟡 Warp Terminal</div>
+      <div class="tool-type">🖥️ Terminal replacement · 🤖 Parallel agents · 🖥️ Full terminal ctrl</div>
+      <div class="tool-meta">
+        <span class="tag orange">Freemium</span>
+        <span class="tag">Multi-agent orchestration</span>
+      </div>
+    </div>
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 Cline</div>
+      <div class="tool-type">🖥️ VS Code · 📦 5M installs · 💰 Cost tracking · 🔀 BYOK</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">OSS</span>
+        <span class="tag blue">Multi-provider</span>
+      </div>
+    </div>
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 Roo Code</div>
+      <div class="tool-type">🖥️ VS Code · 🎭 Custom Modes · 🔒 Offline OK · ⭐ 22k+</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">Apache 2.0</span>
+        <span class="tag">SOC 2</span>
+      </div>
+    </div>
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 Continue</div>
+      <div class="tool-type">🖥️ VS Code + JetBrains · ⚙️ YAML config · 🔀 BYOK · 🔀 Multi-mode</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">OSS</span>
+      </div>
+    </div>
+    <div class="tool-card oss">
+      <div class="tool-name">🟢 Tabby</div>
+      <div class="tool-type">🔒 Self-hosted · 🏥 HIPAA-ready · 🔐 SSO · 👥 Team mgmt</div>
+      <div class="tool-meta">
+        <span class="tag green">Free</span>
+        <span class="tag green">Air-gapped OK</span>
+        <span class="tag green">OSS</span>
+      </div>
+    </div>
+    <div class="tool-card closed">
+      <div class="tool-name">🔵 Sourcegraph Cody</div>
+      <div class="tool-type">🖥️ IDE · 🔍 Code intel at scale · 🏢 Fortune 500 · 🔒 On-prem option</div>
+      <div class="tool-meta">
+        <span class="tag orange">$19+/user</span>
+        <span class="tag blue">Enterprise</span>
+      </div>
+    </div>
+    <div class="tool-card closed">
+      <div class="tool-name">🔵 Amazon Q / Kiro</div>
+      <div class="tool-type">🖥️ CLI + IDE · ☁️ AWS-native · 🏢 Enterprise · 🆓 Free tier</div>
+      <div class="tool-meta">
+        <span class="tag orange">Enterprise pricing</span>
+        <span class="tag blue">AWS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Decision flow based on landscape as of March 2026. Tools and capabilities evolve rapidly — verify before committing.
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'dark' });
+</script>
+</body>
+</html>
