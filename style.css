@@ -88,10 +88,17 @@
   }
 
   footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-inner {
     max-width: 680px;
     margin: 0 auto;
-    padding: 1.5rem 1.5rem 2rem;
-    border-top: 1px solid var(--border);
+    padding: 0.75rem 1.5rem;
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
@@ -104,6 +111,8 @@
     flex-wrap: wrap;
     flex: 1;
   }
+
+  .legend[hidden] { display: none; }
 
   .legend-item {
     display: flex;
@@ -127,6 +136,7 @@
   .footer-credit {
     font-size: 0.78rem;
     color: var(--text-muted);
+    margin-left: auto;
   }
 }
 
@@ -303,7 +313,46 @@
   .card.result-closed     { border-color: color-mix(in srgb, var(--blue) 35%, var(--border)); }
   .card.result-commercial { border-color: color-mix(in srgb, var(--orange) 35%, var(--border)); }
 
+  /* ── Progress bar ── */
+  #progress-bar {
+    height: 3px;
+    background: var(--border);
+    margin-bottom: 1.5rem;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  #progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--blue), var(--green));
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+
   /* ── Buttons ── */
+  .btn-primary {
+    display: inline-block;
+    padding: 0.55rem 1.1rem;
+    background: var(--blue);
+    border: 1px solid var(--blue);
+    border-radius: var(--radius-sm);
+    color: var(--bg);
+    font-family: var(--font);
+    font-size: 0.87rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity var(--transition), box-shadow var(--transition);
+  }
+
+  .btn-primary:hover,
+  .btn-primary:focus-visible {
+    opacity: 0.88;
+    box-shadow: 0 0 0 3px var(--blue-glow);
+    outline: none;
+  }
+
   .btn-ghost {
     padding: 0.55rem 1.1rem;
     background: transparent;
@@ -340,13 +389,15 @@
 }
 
 @layer states {
-  /* Card entrance animation */
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* Card transition */
+  .card {
+    transition: opacity 0.13s ease, transform 0.13s ease;
   }
 
-  .card.in { animation: cardIn 0.22s ease-out both; }
+  .card.out {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 
   /* Explore tree highlights */
   .branch-label.chosen {

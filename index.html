@@ -15,6 +15,10 @@
 </header>
 
 <main>
+  <div id="progress-bar" role="progressbar" aria-label="Quiz progress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+    <div id="progress-fill"></div>
+  </div>
+
   <nav id="breadcrumb" aria-label="Choices made so far"></nav>
 
   <section id="quiz">
@@ -31,12 +35,14 @@
 </main>
 
 <footer>
-  <div class="legend" aria-label="Legend">
-    <span class="legend-item"><span class="legend-dot dot-oss"></span>Open source / free</span>
-    <span class="legend-item"><span class="legend-dot dot-closed"></span>Closed / API-based</span>
-    <span class="legend-item"><span class="legend-dot dot-commercial"></span>Commercial IDE</span>
+  <div class="footer-inner">
+    <div class="legend" id="legend" aria-label="Legend" hidden>
+      <span class="legend-item"><span class="legend-dot dot-oss"></span>Open source / free</span>
+      <span class="legend-item"><span class="legend-dot dot-closed"></span>Closed / API-based</span>
+      <span class="legend-item"><span class="legend-dot dot-commercial"></span>Commercial IDE</span>
+    </div>
+    <span class="footer-credit">which-agent</span>
   </div>
-  <span class="footer-credit">which-agent · data in flow-data.json</span>
 </footer>
 
 <script>
@@ -49,6 +55,10 @@
       const res = await fetch('flow-data.json');
       if (!res.ok) throw new Error(res.statusText);
       S.data = await res.json();
+      document.getElementById('card').addEventListener('click', e => {
+        const btn = e.target.closest('.option');
+        if (btn) go(btn.dataset.next, btn.dataset.label);
+      });
       go('START', null);
     } catch (e) {
       card.innerHTML = `<p class="error">
@@ -75,29 +85,37 @@
   function renderCard(id) {
     const n = S.data.nodes[id];
     const card = document.getElementById('card');
-    card.className = 'card';
-    void card.offsetWidth; // trigger reflow so animation restarts
-    card.innerHTML = n.type === 'question' ? questionHTML(n) : resultHTML(n, id);
-    card.className = 'card' + (n.type === 'result' ? ` result-${n.category}` : '') + ' in';
-    card.setAttribute('aria-label', n.type === 'question' ? n.text : n.name);
+    card.classList.add('out');
+    setTimeout(() => {
+      card.innerHTML = n.type === 'question' ? questionHTML(n) : resultHTML(n, id);
+      card.className = 'card' + (n.type === 'result' ? ` result-${n.category}` : '');
+      document.getElementById('legend').hidden = n.type !== 'result';
+      card.setAttribute('aria-label', n.type === 'question' ? n.text : n.name);
+      const pct = n.type === 'result' ? 100 : Math.min(90, (S.path.length / 6) * 100);
+      const fill = document.getElementById('progress-fill');
+      fill.style.width = pct + '%';
+      document.getElementById('progress-bar').setAttribute('aria-valuenow', Math.round(pct));
+    }, 140);
   }
+
+  const CAT_LABEL = { oss: 'Open source', closed: 'API-based', commercial: 'Commercial' };
 
   function questionHTML(n) {
     const opts = n.options.map(o =>
-      `<button class="option" onclick="go('${o.next}',${JSON.stringify(o.label)})">${o.label}</button>`
+      `<button class="option" data-next="${o.next}" data-label="${o.label.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">${o.label.replace(/&/g,'&amp;')}</button>`
     ).join('');
     return `
-      <p class="card-eyebrow">Question</p>
+      <p class="card-eyebrow">Question ${S.path.length + 1}</p>
       <h2 class="card-title">${n.text}</h2>
       ${n.subtitle ? `<p class="card-sub">${n.subtitle}</p>` : ''}
-      <div class="options" role="list">${opts}</div>`;
+      <div class="options">${opts}</div>`;
   }
 
   function resultHTML(n) {
     const feats = n.features.map(f => `<li>${f}</li>`).join('');
     const tagz  = n.tags.map(t => `<span class="tag tag-${n.category}">${t}</span>`).join('');
     return `
-      <p class="card-eyebrow cat-${n.category}">${n.category}</p>
+      <p class="card-eyebrow cat-${n.category}">${CAT_LABEL[n.category]}</p>
       <div class="result-head">
         <span class="result-icon" aria-hidden="true">${n.icon}</span>
         <div>
@@ -109,8 +127,9 @@
       <ul class="features" aria-label="Key features">${feats}</ul>
       <div class="tags" aria-label="Tags">${tagz}</div>
       <div class="result-actions">
+        ${n.url ? `<a class="btn-primary" href="${n.url}" target="_blank" rel="noopener">Visit ${n.name} ↗</a>` : ''}
         <button class="btn-ghost" onclick="reset()">↩ Start over</button>
-        <button class="btn-ghost" onclick="showExplore()">🗺 Explore all paths</button>
+        <button class="btn-ghost" onclick="showExplore()">See all options</button>
       </div>`;
   }
 
