@@ -1,0 +1,518 @@
+{
+  "meta": {
+    "title": "Which AI Coding Agent?",
+    "description": "Find the right AI coding tool for your workflow",
+    "version": "1.0",
+    "lastUpdated": "2026-03-14"
+  },
+  "nodes": {
+    "START": {
+      "type": "question",
+      "text": "Need deep reasoning?",
+      "subtitle": "Multi-file refactoring, complex edge cases",
+      "options": [
+        { "label": "Yes, multi-file refactoring & edge cases", "next": "DR_PRIV" },
+        { "label": "No, something else", "next": "Q2" }
+      ]
+    },
+    "Q2": {
+      "type": "question",
+      "text": "Need autonomous execution?",
+      "subtitle": "Agentic workflows that run hands-off",
+      "options": [
+        { "label": "Yes, agentic workflows", "next": "AU_PRIV" },
+        { "label": "No, something else", "next": "Q3" }
+      ]
+    },
+    "Q3": {
+      "type": "question",
+      "text": "Want interactive pair programming?",
+      "subtitle": "Back-and-forth collaboration while you code",
+      "options": [
+        { "label": "Yes, interactive collaboration", "next": "PP_ENV" },
+        { "label": "No, something else", "next": "Q4" }
+      ]
+    },
+    "Q4": {
+      "type": "question",
+      "text": "Need quick completions and assistance?",
+      "subtitle": "Inline suggestions and fast answers",
+      "options": [
+        { "label": "Yes, inline completions", "next": "QC_ENV" },
+        { "label": "No, something else", "next": "Q5" }
+      ]
+    },
+    "Q5": {
+      "type": "question",
+      "text": "Need team-wide deployment?",
+      "subtitle": "Org-level rollout or privacy-first setup",
+      "options": [
+        { "label": "Yes, enterprise or org", "next": "ENT_HOST" },
+        { "label": "No, privacy and offline", "next": "OFF_WHO" }
+      ]
+    },
+    "DR_PRIV": {
+      "type": "question",
+      "text": "Data privacy critical?",
+      "subtitle": "Is your code too sensitive for cloud AI?",
+      "options": [
+        { "label": "Yes, must stay local", "next": "DR_OFF" },
+        { "label": "No, cloud is OK", "next": "DR_Q" }
+      ]
+    },
+    "DR_OFF": {
+      "type": "question",
+      "text": "Full offline needed?",
+      "subtitle": "No internet connection at all?",
+      "options": [
+        { "label": "Yes, fully air-gapped", "next": "AIDER_L" },
+        { "label": "No, local model is enough", "next": "DR_FLEX" }
+      ]
+    },
+    "DR_FLEX": {
+      "type": "question",
+      "text": "Multi-model flexibility?",
+      "subtitle": "Want to switch between different LLMs freely?",
+      "options": [
+        { "label": "Yes, swap models freely", "next": "OPENCODE" },
+        { "label": "No, one model is fine", "next": "AIDER_C" }
+      ]
+    },
+    "DR_Q": {
+      "type": "question",
+      "text": "Is top quality the priority?",
+      "subtitle": "Best results over lowest cost?",
+      "options": [
+        { "label": "Yes, best results, willing to pay", "next": "CLAUDE" },
+        { "label": "No, want a balance", "next": "DR_M" }
+      ]
+    },
+    "DR_M": {
+      "type": "question",
+      "text": "Swap models freely?",
+      "subtitle": "Want to mix providers and local models?",
+      "options": [
+        { "label": "Yes, 100+ LLMs", "next": "AIDER_C2" },
+        { "label": "No, stick with one provider", "next": "CODEX" }
+      ]
+    },
+    "AU_PRIV": {
+      "type": "question",
+      "text": "Data privacy critical?",
+      "subtitle": "Is your code too sensitive for cloud AI?",
+      "options": [
+        { "label": "Yes, must stay local", "next": "GOOSE_L" },
+        { "label": "No, cloud is OK", "next": "AU_ENV" }
+      ]
+    },
+    "AU_ENV": {
+      "type": "question",
+      "text": "Environment?",
+      "subtitle": "Where do you work primarily?",
+      "options": [
+        { "label": "Terminal", "next": "AU_CTRL" },
+        { "label": "IDE", "next": "CURSOR" }
+      ]
+    },
+    "AU_CTRL": {
+      "type": "question",
+      "text": "Step-by-step control?",
+      "subtitle": "Approve each action before it runs?",
+      "options": [
+        { "label": "Yes, explicit confirmations", "next": "CLAUDE2" },
+        { "label": "No, let it run", "next": "AU_PAR" }
+      ]
+    },
+    "AU_PAR": {
+      "type": "question",
+      "text": "Parallel agents?",
+      "subtitle": "Run multiple tasks simultaneously?",
+      "options": [
+        { "label": "Yes, parallel execution", "next": "WARP" },
+        { "label": "No, sequential is fine", "next": "GOOSE" }
+      ]
+    },
+    "PP_ENV": {
+      "type": "question",
+      "text": "Environment?",
+      "subtitle": "Where do you work primarily?",
+      "options": [
+        { "label": "Terminal", "next": "PP_GIT" },
+        { "label": "IDE", "next": "PP_LOCK" }
+      ]
+    },
+    "PP_GIT": {
+      "type": "question",
+      "text": "Git-native workflow?",
+      "subtitle": "Auto-commits and git-first operations?",
+      "options": [
+        { "label": "Yes, git-first", "next": "AIDER3" },
+        { "label": "No, prefer other flow", "next": "PP_PLAN" }
+      ]
+    },
+    "PP_PLAN": {
+      "type": "question",
+      "text": "Plan-before-act mode?",
+      "subtitle": "Want the AI to plan before executing?",
+      "options": [
+        { "label": "Yes, plan first", "next": "GEMINI" },
+        { "label": "No, act immediately", "next": "COPILOT" }
+      ]
+    },
+    "PP_LOCK": {
+      "type": "question",
+      "text": "Vendor lock-in OK?",
+      "subtitle": "Fine with a proprietary IDE?",
+      "options": [
+        { "label": "No, want open source", "next": "PP_CUST" },
+        { "label": "Yes, best product wins", "next": "WINDSURF" }
+      ]
+    },
+    "PP_CUST": {
+      "type": "question",
+      "text": "Custom agent personas?",
+      "subtitle": "Define specialized AI modes and roles?",
+      "options": [
+        { "label": "Yes, custom modes", "next": "ROO" },
+        { "label": "No, standard assistant", "next": "CLINE" }
+      ]
+    },
+    "QC_ENV": {
+      "type": "question",
+      "text": "Environment?",
+      "subtitle": "Where do you work primarily?",
+      "options": [
+        { "label": "Terminal", "next": "COP_CLI" },
+        { "label": "VS Code", "next": "QC_COST" },
+        { "label": "JetBrains", "next": "COP_JB" }
+      ]
+    },
+    "QC_COST": {
+      "type": "question",
+      "text": "Budget?",
+      "subtitle": "Free or willing to pay for better completions?",
+      "options": [
+        { "label": "Free / open source", "next": "CONTINUE" },
+        { "label": "Willing to pay", "next": "COP_IDE" }
+      ]
+    },
+    "ENT_HOST": {
+      "type": "question",
+      "text": "Must data stay on-premise?",
+      "subtitle": "HIPAA, FedRAMP, or regulated environments?",
+      "options": [
+        { "label": "Yes, or regulated (HIPAA / FedRAMP)", "next": "TABBY" },
+        { "label": "No, cloud is fine", "next": "ENT_ECO" }
+      ]
+    },
+    "ENT_ECO": {
+      "type": "question",
+      "text": "Primary ecosystem?",
+      "subtitle": "Which platform does your team live on?",
+      "options": [
+        { "label": "AWS", "next": "KIRO" },
+        { "label": "GitHub", "next": "COP_ENT" },
+        { "label": "Large codebase / code intelligence", "next": "CODY" }
+      ]
+    },
+    "OFF_WHO": {
+      "type": "question",
+      "text": "Solo developer?",
+      "subtitle": "Just you, or a team?",
+      "options": [
+        { "label": "Yes, solo", "next": "OFF_UX" },
+        { "label": "No, team", "next": "TAB2" }
+      ]
+    },
+    "OFF_UX": {
+      "type": "question",
+      "text": "Environment?",
+      "subtitle": "Where do you work primarily?",
+      "options": [
+        { "label": "Terminal", "next": "AID_OFF" },
+        { "label": "IDE (VS Code)", "next": "ROO_OFF" }
+      ]
+    },
+
+    "AIDER_L": {
+      "type": "result",
+      "name": "Aider + Ollama",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Zero cloud · fully local · git-native",
+      "description": "The gold standard for air-gapped development. Aider's git-native workflow combined with Ollama's local LLM runtime means your code never leaves your machine.",
+      "tags": ["Free", "Local", "Git-native", "Terminal"],
+      "features": ["🔒 Zero cloud", "🔀 Git-native commits", "🖥️ Runs on your hardware", "🤖 Any Ollama model"]
+    },
+    "OPENCODE": {
+      "type": "result",
+      "name": "OpenCode",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Multi-provider · large community · open source",
+      "description": "A flexible open-source terminal agent with a large and active community. Supports multiple LLM providers so you can stay local or go cloud on your terms.",
+      "tags": ["Free", "OSS", "Multi-provider", "Terminal"],
+      "features": ["🔀 Multi-provider LLMs", "🌐 Large community", "⭐ Open source", "🔧 Highly configurable"]
+    },
+    "AIDER_C": {
+      "type": "result",
+      "name": "Aider",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Strong SWE-bench · any LLM · git-first",
+      "description": "One of the top-performing open-source coding agents. Works with any LLM backend, has strong benchmark scores, and treats git as a first-class citizen.",
+      "tags": ["Free", "OSS", "Any LLM", "Terminal"],
+      "features": ["🏆 Strong SWE-bench Lite", "🔀 100+ LLMs", "🆓 Free & open source", "🔀 Git-native"]
+    },
+    "CLAUDE": {
+      "type": "result",
+      "name": "Claude Code",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "80.9% SWE-bench · top-tier reasoning · cloud",
+      "description": "The highest-scoring AI coding agent on SWE-bench. Built for complex multi-file refactoring and edge cases where quality matters most. Requires Anthropic API.",
+      "tags": ["Paid (API)", "Anthropic", "200k context", "Terminal"],
+      "features": ["🏆 80.9% SWE-bench", "☁️ Cloud", "🔌 MCP + Agents", "💬 200k context"]
+    },
+    "AIDER_C2": {
+      "type": "result",
+      "name": "Aider",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "100+ LLMs · free · git-native",
+      "description": "Maximum model flexibility with free open-source tooling. Switch between OpenAI, Anthropic, Ollama, and 100+ other providers without changing your workflow.",
+      "tags": ["Free", "OSS", "100+ LLMs", "Terminal"],
+      "features": ["🔀 100+ LLMs", "🆓 Free", "🔀 Git-native commits", "⚡ Fast iteration"]
+    },
+    "CODEX": {
+      "type": "result",
+      "name": "Codex CLI",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "GPT-5.4 · web search · OpenAI ecosystem",
+      "description": "OpenAI's terminal-based coding agent powered by GPT-5.4. Includes web search capability for up-to-date information and integrates deeply with the OpenAI ecosystem.",
+      "tags": ["Paid (API)", "OpenAI", "Web search", "Terminal"],
+      "features": ["🧠 GPT-5.4", "🔍 Web search", "☁️ Cloud", "⚡ Fast responses"]
+    },
+    "GOOSE_L": {
+      "type": "result",
+      "name": "Goose + local LLM",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Autonomous · MCP-native · fully local",
+      "description": "Block's Goose agent configured with a local LLM for fully private autonomous execution. MCP-native design makes it extensible without any cloud exposure.",
+      "tags": ["Free", "Local", "Autonomous", "MCP"],
+      "features": ["🤖 Fully autonomous", "🔌 MCP-native", "🔒 Zero cloud", "🛠️ Extensible"]
+    },
+    "CURSOR": {
+      "type": "result",
+      "name": "Cursor",
+      "category": "commercial",
+      "icon": "🟡",
+      "tagline": "Multi-agent · cloud · IDE-first · $20/mo",
+      "description": "The leading AI-first IDE with multi-agent capabilities. Purpose-built for autonomous agentic workflows in a familiar VS Code-like environment.",
+      "tags": ["$20/mo", "IDE", "Multi-agent", "Cloud"],
+      "features": ["🤖 Multi-agent", "☁️ Cloud", "💰 $20/mo", "🖥️ VS Code-compatible"]
+    },
+    "CLAUDE2": {
+      "type": "result",
+      "name": "Claude Code",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Explicit confirmations · 80.9% SWE-bench · cloud",
+      "description": "Claude Code's explicit permission model makes it ideal for agentic workflows where you want to stay in control. Every file write and command is confirmed before execution.",
+      "tags": ["Paid (API)", "Anthropic", "Terminal", "Confirmations"],
+      "features": ["✋ Explicit confirmations", "🏆 80.9% SWE-bench", "☁️ Cloud", "🔌 MCP + Agents"]
+    },
+    "WARP": {
+      "type": "result",
+      "name": "Warp Terminal",
+      "category": "commercial",
+      "icon": "🟡",
+      "tagline": "Parallel agents · full terminal · modern UI",
+      "description": "A modern terminal with built-in parallel AI agent support. Run multiple autonomous tasks simultaneously in a single interface. Great for large codebases with parallel workstreams.",
+      "tags": ["Paid", "Terminal", "Parallel", "Agents"],
+      "features": ["🤖 Parallel agents", "🖥️ Full terminal", "⚡ Concurrent tasks", "🎨 Modern UI"]
+    },
+    "GOOSE": {
+      "type": "result",
+      "name": "Goose",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Multi-step · 29k+ stars · MCP-native · free",
+      "description": "Block's open-source autonomous coding agent with 29k+ GitHub stars. MCP-native architecture makes it highly extensible. Great for multi-step autonomous tasks without the cost of a proprietary tool.",
+      "tags": ["Free", "OSS", "Autonomous", "MCP"],
+      "features": ["🤖 Multi-step autonomy", "⭐ 29k+ stars", "🔌 MCP-native", "🆓 Free"]
+    },
+    "AIDER3": {
+      "type": "result",
+      "name": "Aider",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Auto-commits · git-first · pair programming",
+      "description": "Purpose-built for git-native pair programming. Aider automatically commits every change with meaningful messages, letting you focus on code while it handles version control.",
+      "tags": ["Free", "OSS", "Git-native", "Terminal"],
+      "features": ["🔀 Auto-commits", "🔀 Git-first", "🤝 Pair programming", "🆓 Free"]
+    },
+    "GEMINI": {
+      "type": "result",
+      "name": "Gemini CLI",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Plan Mode · 1M context · Google",
+      "description": "Google's terminal AI agent with a unique Plan Mode that shows you the full execution plan before touching any code. The 1M context window handles massive codebases.",
+      "tags": ["Free tier", "Google", "1M context", "Terminal"],
+      "features": ["📋 Plan Mode", "📏 1M context", "🆓 Free tier", "☁️ Google Cloud"]
+    },
+    "COPILOT": {
+      "type": "result",
+      "name": "Copilot CLI",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Multi-model · GitHub-native · terminal",
+      "description": "GitHub Copilot's terminal interface with multi-model support. Native GitHub integration makes it ideal if you're deep in the GitHub ecosystem.",
+      "tags": ["Paid", "GitHub", "Multi-model", "Terminal"],
+      "features": ["🔀 Multi-model", "🐙 GitHub-native", "☁️ Cloud", "💻 Terminal"]
+    },
+    "ROO": {
+      "type": "result",
+      "name": "Roo Code",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Custom Modes · 22k+ stars · VS Code extension",
+      "description": "An open-source VS Code extension with 22k+ stars that lets you define custom AI personas ('Modes') for specialized tasks — architect mode, reviewer mode, and more.",
+      "tags": ["Free", "OSS", "VS Code", "Custom modes"],
+      "features": ["🎭 Custom Modes", "⭐ 22k+ stars", "📦 VS Code extension", "🆓 Free"]
+    },
+    "CLINE": {
+      "type": "result",
+      "name": "Cline",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "5M installs · cost tracking · VS Code",
+      "description": "The most-installed open-source AI coding extension with 5M+ installs. Built-in cost tracking lets you monitor API spending. Straightforward pair programming without the complexity.",
+      "tags": ["Free", "OSS", "VS Code", "Cost tracking"],
+      "features": ["📦 5M installs", "💰 Cost tracking", "🤝 Pair programming", "🆓 Free"]
+    },
+    "WINDSURF": {
+      "type": "result",
+      "name": "Windsurf",
+      "category": "commercial",
+      "icon": "🟡",
+      "tagline": "#1 ranked · Cascade agent · premium IDE",
+      "description": "Currently ranked #1 for AI coding IDE satisfaction. The Cascade agent provides deep contextual awareness across your entire codebase. A premium alternative to Cursor.",
+      "tags": ["Paid", "IDE", "Cascade agent", "Commercial"],
+      "features": ["🏆 #1 ranked", "🌊 Cascade agent", "🖥️ Full IDE", "⚡ Fast completions"]
+    },
+    "COP_CLI": {
+      "type": "result",
+      "name": "Copilot CLI",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Multi-model · GitHub-native · terminal",
+      "description": "GitHub Copilot's terminal interface with multi-model support and deep GitHub integration. Ideal for quick terminal-based assistance in the GitHub ecosystem.",
+      "tags": ["Paid", "GitHub", "Multi-model", "Terminal"],
+      "features": ["🔀 Multi-model", "🐙 GitHub-native", "💻 Terminal", "☁️ Cloud"]
+    },
+    "CONTINUE": {
+      "type": "result",
+      "name": "Continue",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Free · YAML config · VS Code & JetBrains",
+      "description": "The leading open-source AI code assistant for IDEs. Fully configurable via YAML, supports any LLM provider, and works in both VS Code and JetBrains. The free alternative to Copilot.",
+      "tags": ["Free", "OSS", "YAML config", "VS Code"],
+      "features": ["🆓 Free", "⚙️ YAML config", "🔌 Any LLM", "📦 VS Code + JetBrains"]
+    },
+    "COP_IDE": {
+      "type": "result",
+      "name": "GitHub Copilot",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Deepest IDE integration · GitHub · $10/mo",
+      "description": "The most deeply integrated AI coding assistant for VS Code. Built by GitHub and Microsoft with unmatched IDE integration. The gold standard for paid completions.",
+      "tags": ["$10/mo", "GitHub", "VS Code", "Deep integration"],
+      "features": ["🏢 Deepest IDE integration", "🐙 GitHub-native", "☁️ Cloud", "💰 $10/mo"]
+    },
+    "COP_JB": {
+      "type": "result",
+      "name": "Copilot or Cursor",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "JetBrains · via ACP · best-in-class options",
+      "description": "For JetBrains IDEs, GitHub Copilot and Cursor are the top options via the Agent Completion Protocol. Choose Copilot for GitHub integration or Cursor for advanced agentic features.",
+      "tags": ["Paid", "JetBrains", "ACP", "IDE"],
+      "features": ["🔌 Via ACP", "🐙 GitHub Copilot option", "🤖 Cursor option", "🖥️ JetBrains"]
+    },
+    "TABBY": {
+      "type": "result",
+      "name": "Tabby",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Self-hosted · HIPAA-ready · SSO · enterprise",
+      "description": "A self-hosted AI coding assistant built for regulated industries. HIPAA-ready, FedRAMP-compatible, with SSO and enterprise team management. Your data never leaves your infrastructure.",
+      "tags": ["Free", "Self-hosted", "HIPAA", "SSO"],
+      "features": ["🔒 Self-hosted", "🏥 HIPAA-ready", "🔐 SSO", "👥 Team management"]
+    },
+    "KIRO": {
+      "type": "result",
+      "name": "Amazon Q / Kiro",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "AWS-native · enterprise · deep AWS integration",
+      "description": "Amazon's AI coding agent with deep AWS ecosystem integration. Purpose-built for teams that live in AWS — understands your infrastructure, IAM policies, and AWS services.",
+      "tags": ["AWS", "Enterprise", "Cloud", "Paid"],
+      "features": ["☁️ AWS-native", "🏢 Enterprise", "🔧 AWS service awareness", "💼 IAM-aware"]
+    },
+    "COP_ENT": {
+      "type": "result",
+      "name": "Copilot Enterprise",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Org-wide · policy controls · GitHub",
+      "description": "GitHub Copilot at enterprise scale with org-wide deployment, policy controls, and repository-level customization. The natural choice for GitHub-centric engineering organizations.",
+      "tags": ["Enterprise", "GitHub", "Org-wide", "Paid"],
+      "features": ["🏢 Org-wide deployment", "📋 Policy controls", "🐙 GitHub-native", "🔧 Custom models"]
+    },
+    "CODY": {
+      "type": "result",
+      "name": "Sourcegraph Cody",
+      "category": "closed",
+      "icon": "🔵",
+      "tagline": "Code intelligence at scale · Fortune 500",
+      "description": "Built on Sourcegraph's code search and intelligence platform, Cody understands massive codebases. Used by Fortune 500 companies for large-scale code navigation and generation.",
+      "tags": ["Enterprise", "Code intelligence", "Scale", "Paid"],
+      "features": ["🔍 Code intel at scale", "🏢 Fortune 500", "📊 Large codebase", "🔎 Semantic search"]
+    },
+    "AID_OFF": {
+      "type": "result",
+      "name": "Aider + Ollama",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Zero cloud · free · terminal · local models",
+      "description": "The perfect offline setup for solo developers: Aider's polished terminal UX combined with Ollama's local model runtime. Free, private, and works without internet.",
+      "tags": ["Free", "Local", "No internet", "Terminal"],
+      "features": ["🔒 Zero cloud", "🆓 Free", "💻 Terminal", "🖥️ Local models"]
+    },
+    "ROO_OFF": {
+      "type": "result",
+      "name": "Roo Code + Ollama",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Local · VS Code · private · open source",
+      "description": "Roo Code in VS Code connected to Ollama's local LLM runtime. All the power of a modern AI coding extension without any data leaving your machine.",
+      "tags": ["Free", "Local", "VS Code", "No internet"],
+      "features": ["🔒 Local model", "🖥️ VS Code", "🆓 Free", "🎭 Custom modes"]
+    },
+    "TAB2": {
+      "type": "result",
+      "name": "Tabby",
+      "category": "oss",
+      "icon": "🟢",
+      "tagline": "Self-hosted · team management · open source",
+      "description": "Tabby's team edition: self-hosted AI coding assistant with team management, role-based access, and usage analytics. The OSS answer to enterprise AI coding for privacy-conscious teams.",
+      "tags": ["Free", "Self-hosted", "Team", "OSS"],
+      "features": ["🔒 Self-hosted", "👥 Team management", "🆓 Free & OSS", "📊 Usage analytics"]
+    }
+  }
+}
